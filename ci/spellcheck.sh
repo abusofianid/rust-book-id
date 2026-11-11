@@ -4,8 +4,7 @@ set -eu
 
 aspell --version
 
-# Checks project Markdown files for spelling mistakes.
-# English is the primary dictionary; Indonesian is an additional dictionary.
+# Check Markdown spelling using the appropriate language dictionary.
 
 shopt -s nullglob
 
@@ -22,54 +21,49 @@ fi
 aspell --lang=en dump dicts | grep -q '^en$'
 aspell --lang=id dump dicts | grep -q '^id$'
 
-# Use English as the base language and Indonesian as an extra dictionary.
-aspell_options=(
-    --lang=en
-    --ignore=3
-)
-
-if [[ "$mode" == "list" && ! -f "$dict_filename" ]]; then
-    echo "No dictionary file found! A dictionary file is required in CI!"
+# Keep the existing English project dictionary.
+if [[ ! -f "$dict_filename" ]]; then
+    echo "No dictionary file found: $dict_filename"
     exit 1
 fi
 
-if [[ ! -f "$dict_filename" ]]; then
-    echo "Scanning files to generate dictionary file '$dict_filename'."
-    echo "Please check that it doesn't contain any misspellings."
+cp "$dict_filename" "$dict_path"
 
-    echo "personal_ws-1.1 en 0 utf-8" > "$dict_filename"
-    cat "${markdown_sources[@]}" |
-        aspell "${aspell_options[@]}" list |
-        sort -u >> "$dict_filename"
+# Indonesian files are checked with the Indonesian dictionary.
+# All other Markdown files use the English dictionary.
+for fname in "${markdown_sources[@]}"; do
+    if [[ "$fname" == "./src/title-page.md" ]]; then
+        aspell_options=(--lang=id --ignore=3)
+        use_personal_dictionary=false
+    else
+        aspell_options=(--lang=en --ignore=3)
+        use_personal_dictionary=true
+    fi
 
-elif [[ "$mode" == "list" ]]; then
-    declare -i retval=0
-
-    cp "$dict_filename" "$dict_path"
-
-    for fname in "${markdown_sources[@]}"; do
-        errors=$(aspell "${aspell_options[@]}" \
-            --personal="$dict_path" list < "$fname")
+    if [[ "$mode" == "list" ]]; then
+        if [[ "$use_personal_dictionary" == true ]]; then
+            errors=$(aspell "${aspell_options[@]}" \
+                --personal="$dict_path" list < "$fname")
+        else
+            errors=$(aspell "${aspell_options[@]}" list < "$fname")
+        fi
 
         if [[ -n "$errors" ]]; then
             while IFS= read -r error; do
                 grep --with-filename --line-number \
                     --color=always -F "$error" "$fname" || true
             done <<< "$errors"
-
-            retval=1
         fi
-    done
-
-    exit "$retval"
-
-elif [[ "$mode" == "check" ]]; then
-    cp "$dict_filename" "$dict_path"
-
-    for fname in "${markdown_sources[@]}"; do
-        aspell "${aspell_options[@]}" \
-            --dont-backup \
-            --personal="$dict_path" \
-            check "$fname"
-    done
-fi
+    else
+        if [[ "$use_personal_dictionary" == true ]]; then
+            aspell "${aspell_options[@]}" \
+                --dont-backup \
+                --personal="$dict_path" \
+                check "$fname"
+        else
+            aspell "${aspell_options[@]}" \
+                --dont-backup \
+                check "$fname"
+        fi
+    fi
+done
