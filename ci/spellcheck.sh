@@ -24,8 +24,7 @@ aspell --lang=id dump dicts | grep -q '^id$'
 
 # Use English as the base language and Indonesian as an extra dictionary.
 aspell_options=(
-    --lang=en
-    --extra-dicts=id
+    --lang=id
     --ignore=3
 )
 
