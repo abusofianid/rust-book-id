@@ -1,3 +1,4 @@
+<a id="installation"></a>
 ## Instalasi
 
 Langkah pertama adalah menginstal Rust. Kita akan mengunduh Rust melalui `rustup`, sebuah command line tool untuk mengelola versi Rust dan tools terkait. Anda memerlukan koneksi internet untuk mengunduhnya.
@@ -43,6 +44,7 @@ ignore -->.
 
 Bagian selanjutnya dari buku ini menggunakan perintah yang dapat dijalankan di _cmd.exe_ maupun PowerShell. Jika terdapat perbedaan khusus, kami akan menjelaskan perintah mana yang harus digunakan.
 
+<a id="troubleshooting"></a>
 ### Pemecahan Masalah
 
 Untuk memeriksa apakah Rust telah terinstal dengan benar, buka shell dan masukkan baris berikut:
