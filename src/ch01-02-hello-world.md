@@ -34,6 +34,7 @@ Untuk Windows CMD, masukkan:
 <!-- Old headings. Do not remove or links may break. -->
 <a id="writing-and-running-a-rust-program"></a>
 
+<a id="rust-program-basics"></a>
 ### Dasar-Dasar Program Rust
 
 Selanjutnya, buat file source code baru dan beri nama _main.rs_. File Rust selalu diakhiri dengan ekstensi _.rs_. Jika nama file Anda terdiri dari lebih dari satu kata, konvensi yang digunakan adalah memisahkan setiap kata dengan underscore. Sebagai contoh, gunakan _hello_world.rs_ daripada _helloworld.rs_.
