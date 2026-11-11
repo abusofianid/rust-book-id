@@ -1,23 +1,17 @@
-# The Rust Programming Language
+# Bahasa Pemrograman Rust
 
-_by Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the
-Rust Community_
+_oleh Steve Klabnik, Carol Nichols, dan Chris Krycho, dengan kontribusi dari
+Komunitas Rust_
 
-This version of the text assumes you’re using Rust 1.99.1 (released 2026-10-15)
-or later with `edition = "2024"` in the *Cargo.toml* file of all projects to
-configure them to use Rust 2024 Edition idioms. See the [“Installation” section
-of Chapter 1][install]<!-- ignore --> for instructions on installing or
-updating Rust, and see [Appendix E][appendix-e]<!-- ignore --> for information
-on editions.
+Versi teks ini mengasumsikan bahwa Anda menggunakan Rust 1.99.1 (dirilis pada 2026-10-15) atau versi yang lebih baru, dengan `edition = "2024"` di dalam file *Cargo.toml* pada semua proyek untuk mengonfigurasikannya agar menggunakan idiom Rust 2024 Edition. Lihat bagian [“Instalasi” pada Bab 1][install]<!-- ignore --> untuk petunjuk tentang cara memasang atau memperbarui Rust, dan lihat [Lampiran E][appendix-e]<!-- ignore --> untuk informasi tentang editions.
 
-The HTML format is available online at
+Format HTML tersedia secara daring di
 [https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)
-and offline with installations of Rust made with `rustup`; run `rustup doc
---book` to open.
+dan secara luring melalui instalasi Rust yang dibuat menggunakan `rustup`; jalankan `rustup doc --book` untuk membukanya.
 
-Several community [translations] are also available.
+Beberapa [terjemahan] dari komunitas juga tersedia.
 
-This text is available in [paperback and ebook format from No Starch
+Teks ini tersedia dalam format [buku cetak dan ebook dari No Starch
 Press][nsprust].
 
 [install]: ch01-01-installation.html
@@ -25,6 +19,4 @@ Press][nsprust].
 [nsprust]: https://nostarch.com/rust-programming-language-3rd-edition
 [translations]: appendix-06-translation.html
 
-> **🚨 Want a more interactive learning experience? Try out a different version
-> of the Rust Book, featuring: quizzes, highlighting, visualizations, and
-> more**: <https://rust-book.cs.brown.edu>
+> **🚨 Ingin pengalaman belajar yang lebih interaktif? Cobalah versi Rust Book yang berbeda, dengan fitur seperti kuis, penyorotan, visualisasi, dan fitur lainnya**: <https://rust-book.cs.brown.edu>
