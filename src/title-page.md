@@ -9,7 +9,7 @@ Format HTML tersedia secara daring di
 [https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)
 dan secara luring melalui instalasi Rust yang dibuat menggunakan `rustup`; jalankan `rustup doc --book` untuk membukanya.
 
-Beberapa [terjemahan] dari komunitas juga tersedia.
+Beberapa [terjemahan][translations] dari komunitas juga tersedia.
 
 Teks ini tersedia dalam format [buku cetak dan ebook dari No Starch
 Press][nsprust].
