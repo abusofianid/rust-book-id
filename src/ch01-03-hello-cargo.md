@@ -1,62 +1,40 @@
-## Hello, Cargo!
+## Halo, Cargo!
 
-Cargo is Rust’s build system and package manager. Most Rustaceans use this tool
-to manage their Rust projects because Cargo handles a lot of tasks for you,
-such as building your code, downloading the libraries your code depends on, and
-building those libraries. (We call the libraries that your code needs
-_dependencies_.)
+Cargo adalah build system dan package manager milik Rust. Sebagian besar Rustacean menggunakan tool ini untuk mengelola proyek Rust mereka karena Cargo menangani banyak tugas untuk Anda, seperti mengompilasi kode, mengunduh library yang dibutuhkan oleh kode Anda, serta mengompilasi library tersebut. (Library yang dibutuhkan oleh kode Anda disebut _dependencies_.)
 
-The simplest Rust programs, like the one we’ve written so far, don’t have any
-dependencies. If we had built the “Hello, world!” project with Cargo, it would
-only use the part of Cargo that handles building your code. As you write more
-complex Rust programs, you’ll add dependencies, and if you start a project
-using Cargo, adding dependencies will be much easier to do.
+Program Rust paling sederhana, seperti program yang telah kita buat sejauh ini, tidak memiliki dependencies. Jika kita membuat proyek "Hello, world!" menggunakan Cargo, kita hanya akan menggunakan bagian Cargo yang menangani proses kompilasi kode. Seiring dengan semakin kompleksnya program Rust yang Anda tulis, Anda akan menambahkan dependencies. Jika Anda memulai proyek menggunakan Cargo, proses penambahan dependencies akan jauh lebih mudah.
 
-Because the vast majority of Rust projects use Cargo, the rest of this book
-assumes that you’re using Cargo too. Cargo comes installed with Rust if you
-used the official installers discussed in the
-[“Installation”][installation]<!-- ignore --> section. If you installed Rust
-through some other means, check whether Cargo is installed by entering the
-following in your terminal:
+Karena sebagian besar proyek Rust menggunakan Cargo, bagian selanjutnya dari buku ini mengasumsikan bahwa Anda juga menggunakan Cargo. Cargo sudah terinstal bersama Rust jika Anda menggunakan installer resmi yang telah dibahas pada bagian
+[“Installation”][installation]<!-- ignore --> tersebut. Jika Anda menginstal Rust melalui cara lain, periksa apakah Cargo sudah terinstal dengan menjalankan perintah berikut di terminal:
 
 ```console
 $ cargo --version
 ```
 
-If you see a version number, you have it! If you see an error, such as `command
-not found`, look at the documentation for your method of installation to
-determine how to install Cargo separately.
+Jika Anda melihat nomor versi, berarti Cargo sudah terinstal! Jika muncul pesan kesalahan, seperti `command not found`, periksa dokumentasi metode instalasi yang Anda gunakan untuk mengetahui cara menginstal Cargo secara terpisah.
 
-### Creating a Project with Cargo
+### Membuat Proyek dengan Cargo
 
-Let’s create a new project using Cargo and look at how it differs from our
-original “Hello, world!” project. Navigate back to your _projects_ directory
-(or wherever you decided to store your code). Then, on any operating system,
-run the following:
+Mari kita buat proyek baru menggunakan Cargo dan lihat perbedaannya dengan proyek "Hello, world!" yang telah kita buat sebelumnya. Kembali ke direktori _projects_ (atau lokasi lain yang Anda pilih untuk menyimpan kode). Kemudian, jalankan perintah berikut pada sistem operasi apa pun:
 
 ```console
 $ cargo new hello_cargo
 $ cd hello_cargo
 ```
 
-The first command creates a new directory and project called _hello_cargo_.
-We’ve named our project _hello_cargo_, and Cargo creates its files in a
-directory of the same name.
+Perintah pertama membuat direktori dan proyek baru bernama _hello_cargo_. Kita memberi nama proyek tersebut _hello_cargo_, dan Cargo membuat file-file proyek di dalam direktori dengan nama yang sama.
 
-Go into the _hello_cargo_ directory and list the files. You’ll see that Cargo
-has generated two files and one directory for us: a _Cargo.toml_ file and a
-_src_ directory with a _main.rs_ file inside.
+Masuklah ke direktori _hello_cargo_ dan tampilkan daftar file di dalamnya. Anda akan melihat bahwa Cargo telah membuat dua file dan satu direktori untuk kita: file _Cargo.toml_ dan direktori _src_ yang berisi file _main.rs_.
 
-It has also initialized a new Git repository along with a _.gitignore_ file.
-Git files won’t be generated if you run `cargo new` within an existing Git
-repository; you can override this behavior by using `cargo new --vcs=git`.
+Cargo juga telah menginisialisasi repository Git baru beserta file `.gitignore`.
 
-> Note: Git is a common version control system. You can change `cargo new` to
-> use a different version control system or no version control system by using
-> the `--vcs` flag. Run `cargo new --help` to see the available options.
+File Git tidak akan dibuat jika Anda menjalankan `cargo new` di dalam repository Git yang sudah ada. Anda dapat mengubah perilaku ini dengan menggunakan `cargo new --vcs=git`.
 
-Open _Cargo.toml_ in your text editor of choice. It should look similar to the
-code in Listing 1-2.
+> Catatan: Git adalah sistem version control yang umum digunakan. Anda dapat mengubah `cargo new` agar
+> menggunakan sistem version control lain atau tanpa sistem version control dengan menggunakan
+> flag `--vcs`. Jalankan `cargo new --help` untuk melihat opsi yang tersedia.
+
+Buka _Cargo.toml_ menggunakan text editor pilihan Anda. Isinya seharusnya terlihat mirip dengan kode pada Listing 1-2.
 
 <Listing number="1-2" file-name="Cargo.toml" caption="Contents of *Cargo.toml* generated by `cargo new`">
 
@@ -71,23 +49,16 @@ edition = "2024"
 
 </Listing>
 
-This file is in the [_TOML_][toml]<!-- ignore --> (_Tom’s Obvious, Minimal
-Language_) format, which is Cargo’s configuration format.
+File ini berada di [_TOML_][toml]<!-- ignore --> format (_Tom’s Obvious, Minimal Language_), yang merupakan format konfigurasi Cargo.
 
-The first line, `[package]`, is a section heading that indicates that the
-following statements are configuring a package. As we add more information to
-this file, we’ll add other sections.
+Baris pertama, `[package]`, adalah heading bagian yang menunjukkan bahwa pernyataan-pernyataan berikutnya merupakan konfigurasi untuk sebuah package.
+Saat kita menambahkan informasi lain ke dalam file ini, kita akan menambahkan bagian-bagian lainnya.
 
-The next three lines set the configuration information Cargo needs to compile
-your program: the name, the version, and the edition of Rust to use. We’ll talk
-about the `edition` key in [Appendix E][appendix-e]<!-- ignore -->.
+Tiga baris berikutnya menetapkan informasi konfigurasi yang dibutuhkan Cargo untuk mengompilasi program Anda: nama, versi, dan edition Rust yang akan digunakan. Kita akan membahas key `edition` pada bagian [Appendix E][appendix-e]<!-- ignore -->.
 
-The last line, `[dependencies]`, is the start of a section for you to list any
-of your project’s dependencies. In Rust, packages of code are referred to as
-_crates_. We won’t need any other crates for this project, but we will in the
-first project in Chapter 2, so we’ll use this dependencies section then.
+Baris terakhir, `[dependencies]`, menandai awal bagian tempat Anda mencantumkan semua dependencies proyek. Dalam Rust, kumpulan kode disebut _crates_. Kita tidak membutuhkan crate lain untuk proyek ini, tetapi kita akan membutuhkannya pada proyek pertama di Bab 2. Oleh karena itu, kita akan menggunakan bagian dependencies ini nanti.
 
-Now open _src/main.rs_ and take a look:
+Sekarang, buka _src/main.rs_ dan perhatikan isinya:
 
 <span class="filename">Filename: src/main.rs</span>
 
@@ -97,28 +68,15 @@ fn main() {
 }
 ```
 
-Cargo has generated a “Hello, world!” program for you, just like the one we
-wrote in Listing 1-1! So far, the differences between our project and the
-project Cargo generated are that Cargo placed the code in the _src_ directory,
-and we have a _Cargo.toml_ configuration file in the top directory.
+Cargo telah membuatkan program "Hello, world!" untuk Anda, sama seperti program yang kita tulis pada Listing 1-1! Sejauh ini, perbedaan antara proyek kita dan proyek yang dibuat oleh Cargo adalah Cargo menempatkan kode di dalam direktori _src_ dan menyediakan file konfigurasi _Cargo.toml_ di direktori utama.
 
-Cargo expects your source files to live inside the _src_ directory. The
-top-level project directory is just for README files, license information,
-configuration files, and anything else not related to your code. Using Cargo
-helps you organize your projects. There’s a place for everything, and
-everything is in its place.
+Cargo mengharapkan file sumber Anda berada di dalam direktori _src_. Direktori utama proyek hanya digunakan untuk file README, informasi lisensi, file konfigurasi, dan hal-hal lain yang tidak berkaitan dengan kode Anda. Menggunakan Cargo membantu Anda mengatur proyek dengan lebih terstruktur. Setiap file memiliki tempatnya masing-masing, dan semuanya berada pada tempat yang semestinya.
 
-If you started a project that doesn’t use Cargo, as we did with the “Hello,
-world!” project, you can convert it to a project that does use Cargo. Move the
-project code into the _src_ directory and create an appropriate _Cargo.toml_
-file. One easy way to get that _Cargo.toml_ file is to run `cargo init`, which
-will create it for you automatically.
+Jika Anda memulai proyek tanpa menggunakan Cargo, seperti yang kita lakukan pada proyek "Hello, world!", Anda dapat mengubahnya menjadi proyek yang menggunakan Cargo. Pindahkan kode proyek ke dalam direktori _src_ dan buat file _Cargo.toml_ yang sesuai. Salah satu cara mudah untuk mendapatkan file _Cargo.toml_ tersebut adalah dengan menjalankan `cargo init`, yang akan membuatkannya secara otomatis.
 
-### Building and Running a Cargo Project
+### Membangun dan Menjalankan Proyek Cargo
 
-Now let’s look at what’s different when we build and run the “Hello, world!”
-program with Cargo! From your _hello_cargo_ directory, build your project by
-entering the following command:
+Sekarang, mari kita lihat perbedaan saat membangun dan menjalankan program "Hello, world!" menggunakan Cargo! Dari direktori _hello_cargo_, bangun proyek Anda dengan menjalankan perintah berikut:
 
 ```console
 $ cargo build
@@ -126,26 +84,16 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
 ```
 
-This command creates an executable file in _target/debug/hello_cargo_ (or
-_target\debug\hello_cargo.exe_ on Windows) rather than in your current
-directory. Because the default build is a debug build, Cargo puts the binary in
-a directory named _debug_. You can run the executable with this command:
+Perintah ini membuat file executable di _target/debug/hello_cargo_ (atau _target\debug\hello_cargo.exe_ di Windows), bukan di direktori saat ini. Karena build default merupakan debug build, Cargo menempatkan file binary di direktori bernama _debug_. Anda dapat menjalankan file executable tersebut dengan perintah berikut:
 
 ```console
 $ ./target/debug/hello_cargo # or .\target\debug\hello_cargo.exe on Windows
 Hello, world!
 ```
 
-If all goes well, `Hello, world!` should print to the terminal. Running `cargo
-build` for the first time also causes Cargo to create a new file at the top
-level: _Cargo.lock_. This file keeps track of the exact versions of
-dependencies in your project. This project doesn’t have dependencies, so the
-file is a bit sparse. You won’t ever need to change this file manually; Cargo
-manages its contents for you.
+Jika semuanya berjalan dengan baik, `Hello, world!` akan ditampilkan di terminal. Menjalankan `cargo build` untuk pertama kalinya juga menyebabkan Cargo membuat file baru di direktori utama, yaitu _Cargo.lock_. File ini mencatat versi pasti dari setiap dependency dalam proyek Anda. Proyek ini tidak memiliki dependencies, sehingga isi file tersebut masih sangat sedikit. Anda tidak perlu mengubah file ini secara manual; Cargo akan mengelola isinya untuk Anda.
 
-We just built a project with `cargo build` and ran it with
-`./target/debug/hello_cargo`, but we can also use `cargo run` to compile the
-code and then run the resultant executable all in one command:
+Kita baru saja membangun proyek menggunakan `cargo build` dan menjalankannya dengan `./target/debug/hello_cargo`. Namun, kita juga dapat menggunakan `cargo run` untuk mengompilasi kode sekaligus menjalankan file executable yang dihasilkan hanya dengan satu perintah:
 
 ```console
 $ cargo run
@@ -154,15 +102,9 @@ $ cargo run
 Hello, world!
 ```
 
-Using `cargo run` is more convenient than having to remember to run `cargo
-build` and then use the whole path to the binary, so most developers use `cargo
-run`.
+Menggunakan `cargo run` lebih praktis daripada harus mengingat untuk menjalankan `cargo build` lalu mengetikkan seluruh path menuju file binary. Oleh karena itu, sebagian besar developer menggunakan `cargo run`.
 
-Notice that this time we didn’t see output indicating that Cargo was compiling
-`hello_cargo`. Cargo figured out that the files hadn’t changed, so it didn’t
-rebuild but just ran the binary. If you had modified your source code, Cargo
-would have rebuilt the project before running it, and you would have seen this
-output:
+Perhatikan bahwa kali ini kita tidak melihat output yang menunjukkan bahwa Cargo sedang mengompilasi `hello_cargo`. Cargo mengetahui bahwa file-file belum mengalami perubahan, sehingga tidak perlu melakukan build ulang dan langsung menjalankan file binary. Jika Anda mengubah source code, Cargo akan membangun ulang proyek sebelum menjalankannya, dan Anda akan melihat output berikut:
 
 ```console
 $ cargo run
@@ -172,8 +114,7 @@ $ cargo run
 Hello, world!
 ```
 
-Cargo also provides a command called `cargo check`. This command quickly checks
-your code to make sure it compiles but doesn’t produce an executable:
+Cargo juga menyediakan perintah bernama `cargo check`. Perintah ini memeriksa kode Anda dengan cepat untuk memastikan bahwa kode tersebut dapat dikompilasi, tetapi tidak menghasilkan file executable:
 
 ```console
 $ cargo check
@@ -181,55 +122,32 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
 ```
 
-Why would you not want an executable? Often, `cargo check` is much faster than
-`cargo build` because it skips the step of producing an executable. If you’re
-continually checking your work while writing the code, using `cargo check` will
-speed up the process of letting you know if your project is still compiling! As
-such, many Rustaceans run `cargo check` periodically as they write their
-program to make sure it compiles. Then, they run `cargo build` when they’re
-ready to use the executable.
+Mengapa Anda tidak memerlukan file executable? Sering kali, `cargo check` jauh lebih cepat daripada `cargo build` karena melewati tahap pembuatan file executable. Jika Anda terus-menerus memeriksa hasil pekerjaan selama menulis kode, menggunakan `cargo check` akan mempercepat proses untuk mengetahui apakah proyek Anda masih dapat dikompilasi dengan baik! Oleh karena itu, banyak Rustacean menjalankan `cargo check` secara berkala saat menulis program untuk memastikan bahwa program tersebut dapat dikompilasi. Kemudian, mereka menjalankan `cargo build` ketika sudah siap menggunakan file executable.
 
-Let’s recap what we’ve learned so far about Cargo:
+Mari kita rangkum apa saja yang telah kita pelajari sejauh ini tentang Cargo:
 
-- We can create a project using `cargo new`.
-- We can build a project using `cargo build`.
-- We can build and run a project in one step using `cargo run`.
-- We can build a project without producing a binary to check for errors using
-  `cargo check`.
-- Instead of saving the result of the build in the same directory as our code,
-  Cargo stores it in the _target/debug_ directory.
+- Kita dapat membuat proyek menggunakan `cargo new`.
+- Kita dapat membangun proyek menggunakan `cargo build`.
+- Kita dapat membangun dan menjalankan proyek dalam satu langkah menggunakan `cargo run`.
+- Kita dapat memeriksa kesalahan pada proyek tanpa menghasilkan file binary menggunakan `cargo check`.
+- Alih-alih menyimpan hasil build di direktori yang sama dengan kode kita, Cargo menyimpannya di direktori _target/debug_.
 
-An additional advantage of using Cargo is that the commands are the same no
-matter which operating system you’re working on. So, at this point, we’ll no
-longer provide specific instructions for Linux and macOS versus Windows.
+Keuntungan lain menggunakan Cargo adalah perintah-perintahnya tetap sama, apa pun sistem operasi yang Anda gunakan. Oleh karena itu, mulai saat ini, kita tidak akan lagi memberikan instruksi khusus untuk Linux dan macOS yang berbeda dengan Windows.
 
-### Building for Release
+### Membangun untuk Rilis
 
-When your project is finally ready for release, you can use `cargo build
---release` to compile it with optimizations. This command will create an
-executable in _target/release_ instead of _target/debug_. The optimizations
-make your Rust code run faster, but turning them on lengthens the time it takes
-for your program to compile. This is why there are two different profiles: one
-for development, when you want to rebuild quickly and often, and another for
-building the final program you’ll give to a user that won’t be rebuilt
-repeatedly and that will run as fast as possible. If you’re benchmarking your
-code’s running time, be sure to run `cargo build --release` and benchmark with
-the executable in _target/release_.
+Ketika proyek Anda akhirnya siap dirilis, Anda dapat menggunakan `cargo build --release` untuk mengompilasinya dengan optimisasi. Perintah ini akan menghasilkan file executable di _target/release_, bukan _target/debug_. Optimisasi membuat kode Rust Anda berjalan lebih cepat, tetapi mengaktifkannya akan memperpanjang waktu yang dibutuhkan untuk mengompilasi program.
+Inilah alasan mengapa terdapat dua profile yang berbeda: satu untuk pengembangan, ketika Anda ingin melakukan build ulang dengan cepat dan sering, serta satu lagi untuk membangun program final yang akan diberikan kepada pengguna, yang tidak perlu dibangun ulang berulang kali dan dapat berjalan secepat mungkin.
+Jika Anda melakukan benchmarking terhadap waktu eksekusi kode, pastikan untuk menjalankan `cargo build --release` dan melakukan benchmarking menggunakan file executable yang berada di _target/release_.
 
 <!-- Old headings. Do not remove or links may break. -->
 <a id="cargo-as-convention"></a>
 
-### Leveraging Cargo’s Conventions
+### Memanfaatkan Konvensi Cargo
 
-With simple projects, Cargo doesn’t provide a lot of value over just using
-`rustc`, but it will prove its worth as your programs become more intricate.
-Once programs grow to multiple files or need a dependency, it’s much easier to
-let Cargo coordinate the build.
+Untuk proyek sederhana, Cargo tidak memberikan banyak keuntungan dibandingkan menggunakan `rustc` secara langsung. Namun, manfaat Cargo akan semakin terasa seiring dengan semakin kompleksnya program yang Anda buat. Ketika program mulai terdiri dari beberapa file atau membutuhkan dependency, menyerahkan pengelolaan proses build kepada Cargo akan jauh lebih mudah.
 
-Even though the `hello_cargo` project is simple, it now uses much of the real
-tooling you’ll use in the rest of your Rust career. In fact, to work on any
-existing projects, you can use the following commands to check out the code
-using Git, change to that project’s directory, and build:
+Meskipun proyek `hello_cargo` sederhana, proyek ini sudah menggunakan sebagian besar tool yang akan Anda gunakan sepanjang perjalanan Anda dalam pengembangan Rust. Bahkan, untuk mengerjakan proyek yang sudah ada, Anda dapat menggunakan perintah-perintah berikut untuk mengambil kode menggunakan Git, berpindah ke direktori proyek tersebut, dan melakukan build:
 
 ```console
 $ git clone example.org/someproject
@@ -237,23 +155,19 @@ $ cd someproject
 $ cargo build
 ```
 
-For more information about Cargo, check out [its documentation][cargo].
+Untuk informasi lebih lanjut tentang Cargo, kunjungi [its documentation][cargo].
 
-## Summary
+## Ringkasan
 
-You’re already off to a great start on your Rust journey! In this chapter, you
-learned how to:
+Anda telah memulai perjalanan mempelajari Rust dengan sangat baik! Dalam bab ini, Anda telah mempelajari cara:
 
-- Install the latest stable version of Rust using `rustup`.
-- Update to a newer Rust version.
-- Open locally installed documentation.
-- Write and run a “Hello, world!” program using `rustc` directly.
-- Create and run a new project using the conventions of Cargo.
+- Menginstal versi stable terbaru Rust menggunakan `rustup`.
+- Memperbarui Rust ke versi yang lebih baru.
+- Membuka dokumentasi yang telah diinstal secara lokal.
+- Menulis dan menjalankan program "Hello, world!" secara langsung menggunakan `rustc`.
+- Membuat dan menjalankan proyek baru menggunakan konvensi Cargo.
 
-This is a great time to build a more substantial program to get used to reading
-and writing Rust code. So, in Chapter 2, we’ll build a guessing game program.
-If you would rather start by learning how common programming concepts work in
-Rust, see Chapter 3 and then return to Chapter 2.
+Ini adalah waktu yang tepat untuk membuat program yang lebih kompleks agar Anda terbiasa membaca dan menulis kode Rust. Oleh karena itu, pada Bab 2, kita akan membuat program permainan tebak angka (*guessing game*). Jika Anda lebih memilih untuk mempelajari terlebih dahulu konsep-konsep umum dalam pemrograman menggunakan Rust, silakan baca Bab 3, kemudian kembali ke Bab 2.
 
 [installation]: ch01-01-installation.html#installation
 [toml]: https://toml.io
