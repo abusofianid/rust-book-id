@@ -1,33 +1,21 @@
-# Programming a Guessing Game
+# Membuat Program Permainan Tebak Angka
 
-Let’s jump into Rust by working through a hands-on project together! This
-chapter introduces you to a few common Rust concepts by showing you how to use
-them in a real program. You’ll learn about `let`, `match`, methods, associated
-functions, external crates, and more! In the following chapters, we’ll explore
-these ideas in more detail. In this chapter, you’ll just practice the
-fundamentals.
+Mari kita mulai mempelajari Rust melalui proyek praktik yang akan kita kerjakan bersama! Bab ini memperkenalkan beberapa konsep umum dalam Rust dengan menunjukkan cara menggunakannya dalam program nyata. Anda akan mempelajari `let`, `match`, methods, associated functions, external crates, dan banyak lagi! Pada bab-bab berikutnya, kita akan membahas konsep-konsep tersebut secara lebih mendalam. Dalam bab ini, Anda hanya akan berlatih memahami dasar-dasarnya.
 
-We’ll implement a classic beginner programming problem: a guessing game. Here’s
-how it works: The program will generate a random integer between 1 and 100. It
-will then prompt the player to enter a guess. After a guess is entered, the
-program will indicate whether the guess is too low or too high. If the guess is
-correct, the game will print a congratulatory message and exit.
+Kita akan mengimplementasikan sebuah permasalahan pemrograman klasik untuk pemula: permainan tebak angka. Berikut cara kerjanya: Program akan menghasilkan bilangan bulat acak antara 1 dan 100. Kemudian, program akan meminta pemain memasukkan tebakan. Setelah tebakan dimasukkan, program akan memberi tahu apakah angka tebakan terlalu kecil atau terlalu besar. Jika tebakan benar, permainan akan menampilkan pesan ucapan selamat dan berakhir.
 
-## Setting Up a New Project
+## Menyiapkan Proyek Baru
 
-To set up a new project, go to the _projects_ directory that you created in
-Chapter 1 and make a new project using Cargo, like so:
+Untuk menyiapkan proyek baru, buka direktori _projects_ yang telah Anda buat pada Bab 1, lalu buat proyek baru menggunakan Cargo seperti berikut:
 
 ```console
 $ cargo new guessing_game
 $ cd guessing_game
 ```
 
-The first command, `cargo new`, takes the name of the project (`guessing_game`)
-as the first argument. The second command changes to the new project’s
-directory.
+Perintah pertama, `cargo new`, menerima nama proyek (`guessing_game`) sebagai argumen pertama. Perintah kedua berpindah ke direktori proyek yang baru dibuat.
 
-Look at the generated _Cargo.toml_ file:
+Perhatikan file _Cargo.toml_ yang dihasilkan:
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial
@@ -44,8 +32,7 @@ cd ../../..
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/Cargo.toml}}
 ```
 
-As you saw in Chapter 1, `cargo new` generates a “Hello, world!” program for
-you. Check out the _src/main.rs_ file:
+Seperti yang telah Anda lihat pada Bab 1, `cargo new` membuatkan program "Hello, world!" untuk Anda. Perhatikan file _src/main.rs_:
 
 <span class="filename">Filename: src/main.rs</span>
 
@@ -53,25 +40,19 @@ you. Check out the _src/main.rs_ file:
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/src/main.rs}}
 ```
 
-Now let’s compile this “Hello, world!” program and run it in the same step
-using the `cargo run` command:
+Sekarang, mari kita kompilasi program "Hello, world!" ini dan menjalankannya sekaligus menggunakan perintah `cargo run`:
 
 ```console
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/output.txt}}
 ```
 
-The `run` command comes in handy when you need to rapidly iterate on a project,
-as we’ll do in this game, quickly testing each iteration before moving on to
-the next one.
+Perintah `run` sangat berguna ketika Anda perlu melakukan iterasi dengan cepat pada sebuah proyek, seperti yang akan kita lakukan dalam permainan ini. Kita dapat menguji setiap perubahan dengan cepat sebelum melanjutkan ke tahap berikutnya.
 
-Reopen the _src/main.rs_ file. You’ll be writing all the code in this file.
+Buka kembali file _src/main.rs_. Anda akan menulis seluruh kode di dalam file ini.
 
-## Processing a Guess
+## Memproses Tebakan
 
-The first part of the guessing game program will ask for user input, process
-that input, and check that the input is in the expected form. To start, we’ll
-allow the player to input a guess. Enter the code in Listing 2-1 into
-_src/main.rs_.
+Bagian pertama dari program permainan tebak angka akan meminta input dari pengguna, memproses input tersebut, dan memeriksa apakah input sudah sesuai dengan format yang diharapkan. Sebagai langkah awal, kita akan mengizinkan pemain memasukkan tebakan. Masukkan kode pada Listing 2-1 ke dalam _src/main.rs_.
 
 <Listing number="2-1" file-name="src/main.rs" caption="Code that gets a guess from the user and prints it">
 
@@ -81,65 +62,48 @@ _src/main.rs_.
 
 </Listing>
 
-This code contains a lot of information, so let’s go over it line by line. To
-obtain user input and then print the result as output, we need to bring the
-`io` input/output library into scope. The `io` library comes from the standard
-library, known as `std`:
+Kode ini memuat banyak informasi, jadi mari kita bahas baris demi baris. Untuk mendapatkan input dari pengguna dan kemudian menampilkan hasilnya sebagai output, kita perlu memasukkan library input/output `io` ke dalam scope. Library `io` berasal dari standard library, yang dikenal sebagai `std`:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:io}}
 ```
 
-By default, Rust has a set of items defined in the standard library that it
-brings into the scope of every program. This set is called the _prelude_, and
-you can see everything in it [in the standard library documentation][prelude].
+Secara default, Rust memiliki sekumpulan item yang didefinisikan dalam standard library dan otomatis dimasukkan ke dalam scope setiap program. Kumpulan ini disebut _prelude_, dan Anda dapat melihat seluruh isinya [in the standard library documentation][prelude].
 
-If a type you want to use isn’t in the prelude, you have to bring that type
-into scope explicitly with a `use` statement. Using the `std::io` library
-provides you with a number of useful features, including the ability to accept
-user input.
+Jika suatu type yang ingin Anda gunakan tidak termasuk dalam prelude, Anda harus memasukkan type tersebut ke dalam scope secara eksplisit menggunakan statement `use`. Menggunakan library `std::io` memberi Anda akses ke sejumlah fitur yang berguna, termasuk kemampuan untuk menerima input dari pengguna.
 
-As you saw in Chapter 1, the `main` function is the entry point into the
-program:
+Seperti yang telah Anda lihat pada Bab 1, function `main` merupakan titik masuk (entry point) ke dalam program:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:main}}
 ```
 
-The `fn` syntax declares a new function; the parentheses, `()`, indicate there
-are no parameters; and the curly bracket, `{`, starts the body of the function.
+Syntax `fn` mendeklarasikan function baru; tanda kurung `()` menunjukkan bahwa function tersebut tidak memiliki parameter; dan kurung kurawal `{` menandai awal body function.
 
-As you also learned in Chapter 1, `println!` is a macro that prints a string to
-the screen:
+Seperti yang juga telah Anda pelajari pada Bab 1, `println!` adalah macro yang mencetak string ke layar:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:print}}
 ```
 
-This code is printing a prompt stating what the game is and requesting input
-from the user.
+Kode ini menampilkan prompt yang menjelaskan permainan dan meminta pengguna untuk memasukkan input.
 
-### Storing Values with Variables
+### Menyimpan Nilai dalam Variabel
 
-Next, we’ll create a _variable_ to store the user input, like this:
+Selanjutnya, kita akan membuat _variabel_ untuk menyimpan input dari pengguna, seperti berikut:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:string}}
 ```
 
-Now the program is getting interesting! There’s a lot going on in this little
-line. We use the `let` statement to create the variable. Here’s another example:
+Sekarang program mulai menarik! Ada banyak hal yang terjadi dalam satu baris kecil ini. Kita menggunakan statement `let` untuk membuat variabel. Berikut contoh lainnya:
 
 ```rust,ignore
 let apples = 5;
 ```
 
-This line creates a new variable named `apples` and binds it to the value `5`.
-In Rust, variables are immutable by default, meaning once we give the variable
-a value, the value won’t change. We’ll be discussing this concept in detail in
-the [“Variables and Mutability”][variables-and-mutability]<!-- ignore -->
-section in Chapter 3. To make a variable mutable, we add `mut` before the
-variable name:
+Baris ini membuat variabel baru bernama `apples` dan mengikatnya dengan nilai `5`. Dalam Rust, variabel secara default bersifat immutable, yang berarti setelah kita memberikan sebuah nilai kepada variabel, nilainya tidak dapat diubah. Kita akan membahas konsep ini secara lebih mendalam pada bagian [“Variables and Mutability”][variables-and-mutability]<!-- ignore -->
+di Bab 3. Untuk membuat variabel menjadi mutable, kita menambahkan `mut` sebelum nama variabel:
 
 ```rust,ignore
 let apples = 5; // immutable
