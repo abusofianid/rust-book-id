@@ -909,7 +909,7 @@ types, and functions, and shows how to use them in Rust. Chapter 4 explores
 ownership, a feature that makes Rust different from other languages. Chapter 5
 discusses structs and method syntax, and Chapter 6 explains how enums work.
 
-[prelude]: ../std/prelude/index.html
+[prelude]: https://doc.rust-lang.org/std/prelude/index.html
 [variables-and-mutability]: ch03-01-variables-and-mutability.html#variables-and-mutability
 [comments]: ch03-04-comments.html
 [string]: ../std/string/struct.String.html
