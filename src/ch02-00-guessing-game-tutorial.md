@@ -112,143 +112,154 @@ let apples = 5; // immutable
 let mut bananas = 5; // mutable
 ```
 
-> Note: The `//` syntax starts a comment that continues until the end of the
-> line. Rust ignores everything in comments. We’ll discuss comments in more
-> detail in [Chapter 3][comments]<!-- ignore -->.
+> Catatan: Sintaks `//` memulai komentar yang berlanjut hingga akhir baris.
+> Rust mengabaikan semua yang ada di dalam komentar. Kita akan membahas komentar
+> lebih lanjut di [Chapter 3][comments]<!-- ignore -->.
 
-Returning to the guessing game program, you now know that `let mut guess` will
-introduce a mutable variable named `guess`. The equal sign (`=`) tells Rust we
-want to bind something to the variable now. On the right of the equal sign is
-the value that `guess` is bound to, which is the result of calling
-`String::new`, a function that returns a new instance of a `String`.
-[`String`][string]<!-- ignore --> is a string type provided by the standard
-library that is a growable, UTF-8 encoded bit of text.
+Kembali ke program tebak angka, sekarang kamu sudah tahu bahwa `let mut guess`
+akan memperkenalkan sebuah variabel mutable bernama `guess`. Tanda sama dengan
+(`=`) memberi tahu Rust bahwa kita ingin mengikat sesuatu ke variabel tersebut.
+Di sebelah kanan tanda sama dengan terdapat nilai yang diikat ke `guess`, yaitu
+hasil pemanggilan `String::new`, sebuah function yang mengembalikan instance
+baru dari `String`.
+[`String`][string]<!-- ignore --> adalah tipe string yang disediakan oleh standard library, yang berupa teks UTF-8 yang dapat diperluas.
 
-The `::` syntax in the `::new` line indicates that `new` is an associated
-function of the `String` type. An _associated function_ is a function that’s
-implemented on a type, in this case `String`. This `new` function creates a
-new, empty string. You’ll find a `new` function on many types because it’s a
-common name for a function that makes a new value of some kind.
+Sintaks `::` pada baris `::new` menunjukkan bahwa `new` adalah associated
+function dari tipe `String`. _Associated function_ adalah function yang
+diimplementasikan pada suatu tipe, dalam hal ini `String`. Function `new` ini
+membuat string baru yang kosong. Kamu akan menemukan function `new` pada banyak
+tipe karena nama ini umum digunakan untuk function yang membuat nilai baru
+dari suatu jenis tertentu.
 
-In full, the `let mut guess = String::new();` line has created a mutable
-variable that is currently bound to a new, empty instance of a `String`. Whew!
+Secara keseluruhan, baris `let mut guess = String::new();` telah membuat
+sebuah variabel mutable yang saat ini terikat pada instance baru `String`
+yang masih kosong. Fiuh!
 
-### Receiving User Input
+### Menerima Input dari Pengguna
 
-Recall that we included the input/output functionality from the standard
-library with `use std::io;` on the first line of the program. Now we’ll call
-the `stdin` function from the `io` module, which will allow us to handle user
-input:
+Ingat bahwa kita telah menyertakan fungsionalitas input/output dari standard
+library dengan `use std::io;` pada baris pertama program. Sekarang kita akan
+memanggil function `stdin` dari modul `io`, yang memungkinkan kita menangani
+input dari pengguna:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:read}}
 ```
 
-If we hadn’t imported the `io` module with `use std::io;` at the beginning of
-the program, we could still use the function by writing this function call as
-`std::io::stdin`. The `stdin` function returns an instance of
-[`std::io::Stdin`][iostdin]<!-- ignore -->, which is a type that represents a
-handle to the standard input for your terminal.
+Jika kita tidak mengimpor modul `io` dengan `use std::io;` di awal program,
+kita tetap dapat menggunakan function tersebut dengan menuliskan pemanggilan
+function ini sebagai `std::io::stdin`. Function `stdin` mengembalikan sebuah
+instance dari
+[`std::io::Stdin`][iostdin]<!-- ignore -->, yang merupakan tipe yang merepresentasikan handle ke standard input untuk terminal kamu.
 
-Next, the line `.read_line(&mut guess)` calls the [`read_line`][read_line]<!--
-ignore --> method on the standard input handle to get input from the user.
-We’re also passing `&mut guess` as the argument to `read_line` to tell it what
-string to store the user input in. The full job of `read_line` is to take
-whatever the user types into standard input and append that into a string
-(without overwriting its contents), so we therefore pass that string as an
-argument. The string argument needs to be mutable so that the method can change
-the string’s content.
+Selanjutnya, baris `.read_line(&mut guess)` memanggil [`read_line`][read_line]<!--
+ignore --> method pada handle standard input untuk mendapatkan input dari pengguna.
+Kita juga meneruskan `&mut guess` sebagai argumen ke `read_line` untuk memberi
+tahu method tersebut ke dalam string mana input pengguna harus disimpan.
+Tugas utama `read_line` adalah mengambil apa pun yang diketik pengguna ke
+standard input dan menambahkannya ke dalam sebuah string (tanpa menimpa
+isinya), sehingga kita meneruskan string tersebut sebagai argumen. Argumen
+string harus bersifat mutable agar method dapat mengubah isi string tersebut.
 
-The `&` indicates that this argument is a _reference_, which gives you a way to
-let multiple parts of your code access one piece of data without needing to
-copy that data into memory multiple times. References are a complex feature,
-and one of Rust’s major advantages is how safe and easy it is to use
-references. You don’t need to know a lot of those details to finish this
-program. For now, all you need to know is that, like variables, references are
-immutable by default. Hence, you need to write `&mut guess` rather than
-`&guess` to make it mutable. (Chapter 4 will explain references more
-thoroughly.)
+Tanda `&` menunjukkan bahwa argumen ini adalah sebuah _reference_, yang
+memungkinkan beberapa bagian kode kamu mengakses satu bagian data tanpa perlu
+menyalin data tersebut ke dalam memori berkali-kali. Reference merupakan fitur
+yang kompleks, dan salah satu keunggulan utama Rust adalah betapa aman dan
+mudahnya menggunakan reference. Kamu tidak perlu mengetahui banyak detail
+tentang hal tersebut untuk menyelesaikan program ini. Untuk saat ini, yang
+perlu kamu ketahui adalah bahwa, seperti variabel, reference secara default
+bersifat immutable. Oleh karena itu, kamu perlu menulis `&mut guess`, bukan
+`&guess`, agar reference tersebut bersifat mutable. (Chapter 4 akan menjelaskan
+reference secara lebih mendalam.)
 
 <!-- Old headings. Do not remove or links may break. -->
 
 <a id="handling-potential-failure-with-the-result-type"></a>
 
-### Handling Potential Failure with `Result`
+### Menangani Kemungkinan Kegagalan dengan `Result`
 
-We’re still working on this line of code. We’re now discussing a third line of
-text, but note that it’s still part of a single logical line of code. The next
-part is this method:
+Kita masih mengerjakan baris kode ini. Sekarang kita membahas bagian teks
+ketiga, tetapi perlu diperhatikan bahwa bagian ini masih merupakan satu baris
+kode secara logis. Bagian berikutnya adalah method ini:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:expect}}
 ```
 
-We could have written this code as:
+Kita sebenarnya bisa menulis kode ini seperti berikut:
 
 ```rust,ignore
 io::stdin().read_line(&mut guess).expect("Failed to read line");
 ```
 
-However, one long line is difficult to read, so it’s best to divide it. It’s
-often wise to introduce a newline and other whitespace to help break up long
-lines when you call a method with the `.method_name()` syntax. Now let’s
-discuss what this line does.
+Namun, satu baris yang terlalu panjang sulit dibaca, jadi sebaiknya kita
+membaginya menjadi beberapa baris. Sering kali, menambahkan baris baru dan
+spasi tambahan merupakan pilihan yang bijak untuk memecah baris panjang saat
+memanggil method dengan sintaks `.method_name()`. Sekarang, mari kita bahas
+apa yang dilakukan baris ini.
 
-As mentioned earlier, `read_line` puts whatever the user enters into the string
-we pass to it, but it also returns a `Result` value. [`Result`][result]<!--
-ignore --> is an [_enumeration_][enums]<!-- ignore -->, often called an _enum_,
-which is a type that can be in one of multiple possible states. We call each
-possible state a _variant_.
+Seperti yang telah disebutkan sebelumnya, `read_line` memasukkan apa pun yang
+dimasukkan pengguna ke dalam string yang kita teruskan kepadanya, tetapi
+function ini juga mengembalikan sebuah nilai `Result`. [`Result`][result]<!--
+ignore --> adalah sebuah [_enumeration_][enums]<!-- ignore -->, yang sering disebut _enum_, merupakan tipe yang dapat berada dalam salah satu
+dari beberapa kemungkinan state. Kita menyebut setiap state yang mungkin
+tersebut sebagai _variant_.
 
-[Chapter 6][enums]<!-- ignore --> will cover enums in more detail. The purpose
-of these `Result` types is to encode error-handling information.
+[Chapter 6][enums]<!-- ignore --> akan membahas enum secara lebih mendalam. Tujuan dari tipe `Result` ini adalah
+untuk menyimpan informasi penanganan error.
 
-`Result`’s variants are `Ok` and `Err`. The `Ok` variant indicates the
-operation was successful, and it contains the successfully generated value.
-The `Err` variant means the operation failed, and it contains information
-about how or why the operation failed.
+Variant dari `Result` adalah `Ok` dan `Err`. Variant `Ok` menunjukkan bahwa
+operasi berhasil, dan berisi nilai yang berhasil dihasilkan. Variant `Err`
+berarti operasi gagal, dan berisi informasi tentang bagaimana atau mengapa
+operasi tersebut gagal.
 
-Values of the `Result` type, like values of any type, have methods defined on
-them. An instance of `Result` has an [`expect` method][expect]<!-- ignore -->
-that you can call. If this instance of `Result` is an `Err` value, `expect`
-will cause the program to crash and display the message that you passed as an
-argument to `expect`. If the `read_line` method returns an `Err`, it would
-likely be the result of an error coming from the underlying operating system.
-If this instance of `Result` is an `Ok` value, `expect` will take the return
-value that `Ok` is holding and return just that value to you so that you can
-use it. In this case, that value is the number of bytes in the user’s input.
+Nilai dari tipe `Result`, seperti nilai dari tipe apa pun, memiliki method yang
+didefinisikan untuknya. Sebuah instance dari `Result` memiliki method [`expect` method][expect]<!-- ignore -->
+yang dapat kamu panggil. Jika instance `Result` ini merupakan nilai `Err`,
+`expect` akan menyebabkan program mengalami crash dan menampilkan pesan yang
+kamu berikan sebagai argumen kepada `expect`. Jika method `read_line`
+mengembalikan `Err`, kemungkinan besar hal tersebut disebabkan oleh error
+yang berasal dari sistem operasi yang mendasarinya. Jika instance `Result`
+ini merupakan nilai `Ok`, `expect` akan mengambil nilai kembalian yang
+disimpan oleh `Ok` dan mengembalikan nilai tersebut secara langsung kepadamu
+agar dapat kamu gunakan. Dalam kasus ini, nilai tersebut adalah jumlah byte
+dalam input pengguna.
 
-If you don’t call `expect`, the program will compile, but you’ll get a warning:
+Jika kamu tidak memanggil `expect`, program akan berhasil dikompilasi, tetapi
+kamu akan mendapatkan sebuah warning:
 
 ```console
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-02-without-expect/output.txt}}
 ```
 
-Rust warns that you haven’t used the `Result` value returned from `read_line`,
-indicating that the program hasn’t handled a possible error.
+Rust memberikan warning bahwa kamu belum menggunakan nilai `Result` yang
+dikembalikan oleh `read_line`, yang menunjukkan bahwa program belum menangani
+kemungkinan terjadinya error.
 
-The right way to suppress the warning is to actually write error-handling code,
-but in our case we just want to crash this program when a problem occurs, so we
-can use `expect`. You’ll learn about recovering from errors in [Chapter
+Cara yang tepat untuk menghilangkan warning ini adalah dengan menulis kode
+penanganan error. Namun, dalam kasus kita, kita hanya ingin membuat program
+crash ketika terjadi masalah, sehingga kita dapat menggunakan `expect`. Kamu
+akan mempelajari cara memulihkan program dari error di [Chapter
 9][recover]<!-- ignore -->.
 
-### Printing Values with `println!` Placeholders
+### Mencetak Nilai dengan Placeholder `println!`
 
-Aside from the closing curly bracket, there’s only one more line to discuss in
-the code so far:
+Selain kurung kurawal penutup, hanya ada satu baris lagi yang perlu kita bahas
+dari kode sejauh ini:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:print_guess}}
 ```
 
-This line prints the string that now contains the user’s input. The `{}` set of
-curly brackets is a placeholder: Think of `{}` as little crab pincers that hold
-a value in place. When printing the value of a variable, the variable name can
-go inside the curly brackets. When printing the result of evaluating an
-expression, place empty curly brackets in the format string, then follow the
-format string with a comma-separated list of expressions to print in each empty
-curly bracket placeholder in the same order. Printing a variable and the result
-of an expression in one call to `println!` would look like this:
+Baris ini mencetak string yang sekarang berisi input dari pengguna. Sepasang
+kurung kurawal `{}` merupakan placeholder: Anggap `{}` seperti capit kepiting
+kecil yang menahan sebuah nilai pada tempatnya. Saat mencetak nilai sebuah
+variabel, nama variabel dapat ditempatkan di dalam kurung kurawal. Saat
+mencetak hasil evaluasi sebuah expression, tempatkan kurung kurawal kosong
+di dalam format string, lalu ikuti format string tersebut dengan daftar
+expression yang dipisahkan koma untuk dicetak pada setiap placeholder kurung
+kurawal kosong, sesuai urutannya. Mencetak sebuah variabel dan hasil dari
+sebuah expression dalam satu pemanggilan `println!` akan terlihat seperti ini:
 
 ```rust
 let x = 5;
@@ -257,11 +268,11 @@ let y = 10;
 println!("x = {x} and y + 2 = {}", y + 2);
 ```
 
-This code would print `x = 5 and y + 2 = 12`.
+Kode ini akan mencetak `x = 5 and y + 2 = 12`.
 
-### Testing the First Part
+### Menguji Bagian Pertama
 
-Let’s test the first part of the guessing game. Run it using `cargo run`:
+Mari kita uji bagian pertama dari game tebak angka ini. Jalankan program menggunakan `cargo run`:
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-01/
@@ -280,22 +291,23 @@ Please input your guess.
 You guessed: 6
 ```
 
-At this point, the first part of the game is done: We’re getting input from the
-keyboard and then printing it.
+Pada tahap ini, bagian pertama dari game telah selesai: Kita sudah menerima
+input dari keyboard, lalu mencetaknya.
 
-## Generating a Secret Number
+## Menghasilkan Angka Rahasia
 
-Next, we need to generate a secret number that the user will try to guess. The
-secret number should be different every time so that the game is fun to play
-more than once. We’ll use a random number between 1 and 100 so that the game
-isn’t too difficult. Rust doesn’t yet include random number functionality in
-its standard library. However, the Rust team does provide a [`rand`
-crate][randcrate] with said functionality.
+Selanjutnya, kita perlu menghasilkan angka rahasia yang akan coba ditebak oleh
+pengguna. Angka rahasia tersebut harus berbeda setiap kali agar game ini tetap
+menyenangkan untuk dimainkan berulang kali. Kita akan menggunakan angka acak
+antara 1 dan 100 agar game ini tidak terlalu sulit. Rust belum menyertakan
+fungsionalitas untuk menghasilkan angka acak di dalam standard library-nya.
+Namun, tim Rust menyediakan sebuah [`rand`
+crate][randcrate] dengan fungsionalitas tersebut.
 
 <!-- Old headings. Do not remove or links may break. -->
 <a id="using-a-crate-to-get-more-functionality"></a>
 
-### Increasing Functionality with a Crate
+### Menambahkan Fungsionalitas dengan Crate
 
 Remember that a crate is a collection of Rust source code files. The project
 we’ve been building is a binary crate, which is an executable. The `rand` crate
