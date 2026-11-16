@@ -88,6 +88,8 @@ Seperti yang juga telah Anda pelajari pada Bab 1, `println!` adalah macro yang m
 
 Kode ini menampilkan prompt yang menjelaskan permainan dan meminta pengguna untuk memasukkan input.
 
+<a id="storing-values-with-variables"></a>
+
 ### Menyimpan Nilai dalam Variabel
 
 Selanjutnya, kita akan membuat _variabel_ untuk menyimpan input dari pengguna, seperti berikut:
