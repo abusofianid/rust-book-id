@@ -102,6 +102,8 @@ jobs:
     - name: Validate references
       run: bash ci/validate.sh
     - name: Check for broken links
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         curl -sSLo linkcheck.sh \
           https://raw.githubusercontent.com/rust-lang/rust/HEAD/src/tools/linkchecker/linkcheck.sh
