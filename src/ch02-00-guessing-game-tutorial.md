@@ -174,7 +174,6 @@ reference secara lebih mendalam.)
 
 <!-- Old headings. Do not remove or links may break. -->
 
-<a id="handling-potential-failure-with-the-result-type"></a>
 <a id="handling-potential-failure-with-result"></a>
 
 ### Menangani Kemungkinan Kegagalan dengan `Result`
